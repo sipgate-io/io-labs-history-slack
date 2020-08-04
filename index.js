@@ -1,0 +1,45 @@
+const { createHistoryModule, sipgateIO } = require('sipgateio');
+const { HistoryEntryType } = require('sipgateio/dist/history');
+const axios = require('axios');
+
+const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
+if (!slackWebhookUrl) {
+	console.error(
+		'Please provide a Slack webhook URL via the environment variable SLACK_WEBHOOK_URL'
+	);
+	return;
+}
+
+const sipgateio = sipgateIO({
+	username: process.env.SIPGATE_USERNAME,
+	password: process.env.SIPGATE_PASSWORD,
+});
+
+const historyModule = createHistoryModule(sipgateio);
+
+setInterval(async () => {
+	historyModule
+		.fetchAll({
+			types: [HistoryEntryType.SMS, HistoryEntryType.VOICEMAIL],
+			archived: false,
+			directions: ['INCOMING'],
+		})
+		.then((entries) => {
+			entries.forEach((entry) => {
+				if (entry.type === HistoryEntryType.SMS) {
+					axios.post(slackWebhookUrl, {
+						text: `SMS received from ${entry.source}:\n${entry.smsContent}`,
+					});
+				}
+				if (entry.type === HistoryEntryType.VOICEMAIL) {
+					axios.post(slackWebhookUrl, {
+						text: `New voicemail recording from ${entry.source}:\n${entry.recordingUrl}`,
+					});
+				}
+			});
+			historyModule.batchUpdateEvents(entries, () => {
+				return { archived: true };
+			});
+		})
+		.catch(console.error);
+}, 5000);
