@@ -34,7 +34,7 @@ const handleEntries = (entries) => {
 	historyModule.batchUpdateEvents(entries, () => {
 		return { archived: true };
 	});
-}
+};
 
 setInterval(async () => {
 	historyModule
