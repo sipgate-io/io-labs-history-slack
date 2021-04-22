@@ -11,8 +11,8 @@ if (!slackWebhookUrl) {
 }
 
 const sipgateio = sipgateIO({
-	username: process.env.SIPGATE_USERNAME,
-	password: process.env.SIPGATE_PASSWORD,
+	tokenId: process.env.SIPGATE_TOKEN_ID,
+	token: process.env.SIPGATE_TOKEN,
 });
 
 const historyModule = createHistoryModule(sipgateio);

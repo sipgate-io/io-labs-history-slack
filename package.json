@@ -11,10 +11,10 @@
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^0.21.1",
-		"sipgateio": "^2.1.4"
+		"sipgateio": "^2.2.0"
 	},
 	"devDependencies": {
-		"eslint": "^7.17.0",
+		"eslint": "^7.24.0",
 		"prettier": "^2.2.1"
 	}
 }
