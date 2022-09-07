@@ -39,13 +39,22 @@ npm install
 
 Create a webhook in your slack control panel. Details can be found in the official [slack documentation](https://api.slack.com/messaging/webhooks).
 
+Create the `.env` file by copying the `.env.example`. Set the values according to the comment above each variable.
+
+The token should have the `history:read` scope. For more information about personal access tokens visit https://www.sipgate.io/rest-api/authentication#personalAccessToken.
+
+
 Run the application:
+
+```bash
+npm start
+```
+
+Alternatively, you can set the environment variables as part of the shell command.
 
 ```bash
 SIPGATE_TOKEN_ID=token_id SIPGATE_TOKEN=token SLACK_WEBHOOK_URL=https://your.slack.webhook.url npm start
 ```
-
-The token should have the `history:read` scope. For more information about personal access tokens visit https://www.sipgate.io/rest-api/authentication#personalAccessToken.
 
 ## Common Issues
 

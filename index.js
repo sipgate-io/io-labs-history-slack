@@ -2,6 +2,8 @@ const { createHistoryModule, sipgateIO } = require('sipgateio');
 const { HistoryEntryType } = require('sipgateio/dist/history');
 const axios = require('axios');
 
+require("dotenv").config();
+
 const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
 if (!slackWebhookUrl) {
 	console.error(
